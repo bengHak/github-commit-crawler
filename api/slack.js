@@ -24,31 +24,32 @@ const readCommitHistory = async () => {
       )
       .map((e) => {
         const commit_text = e['detail']['text'];
-        let commit_link = commit_text.substring(
+        let commitLink = commit_text.substring(
           commit_text.indexOf('<') + 1,
           commit_text.indexOf('|')
         );
-        const offset = new Date().getTimezoneOffset();
-        const ts = new Date(e['ts'] * 1000 - offset * 60 * 1000);
+        // const offset = new Date().getTimezoneOffset();
+        // const ts = new Date(e['ts'] * 1000 - offset * 60 * 1000);
+        const ts = new Date(e['ts'] * 1000);
         return {
           author_name: e['detail']['author_name'],
-          text: commit_link,
+          commit_link: commitLink,
           timestamp: ts,
         };
       });
-    //   console.log(messages);
-    //   console.log(messages[0]['timestamp'] < messages[1]['timestamp']);
-    //   console.log(messages[0]['timestamp'] > messages[1]['timestamp']);
-    //   console.log(messages[0]['timestamp'] === messages[0]['timestamp']);
-    // console.log(messages);
     return messages;
   });
-  console.log(history);
   return history;
 };
 
-const getUnsavedCommit = (lastSavedCommitTime) => {};
+const getUnsavedCommit = async (lastSavedCommitTime) => {
+  const history = await readCommitHistory();
+  return history.filter(
+    (e) => new Date(e['timestamp']) > new Date(lastSavedCommitTime)
+  );
+};
 
 module.exports = {
   readCommitHistory,
+  getUnsavedCommit,
 };
