@@ -29,6 +29,32 @@ const sendYesterdayResult = async () => {
   let totalNumber = res['commit'].length + res['notCommit'].length;
   let achieve = Math.floor((res['commit'].length / totalNumber) * 100);
 
+  if (achieve === 100) {
+    return sendMessage({
+      title: '🎉 어제는 ALL PASS 🎉',
+      blocks: [
+        {
+          type: 'header',
+          text: '🎉 어제는 ALL PASS 🎉',
+          style: 'yellow',
+        },
+        {
+          type: 'text',
+          text: `⭐️*고생했어요~*⭐️`,
+          markdown: true,
+        },
+        {
+          type: 'divider',
+        },
+        {
+          type: 'text',
+          text: `⚡️ 오늘도 ALL PASS 가즈아~`,
+          markdown: true,
+        },
+      ],
+    });
+  }
+
   sendMessage({
     title: '📣 어제 다들 열심히 커밋했어요~',
     blocks: [
@@ -44,7 +70,10 @@ const sendYesterdayResult = async () => {
       },
       {
         type: 'text',
-        text: `*💢 어제 뭐함,,?*\n👉 ${res['notCommit']}`,
+        text:
+          res['notCommit'].length > 0
+            ? `*💢 어제 뭐함,,?*\n👉 ${res['notCommit']}`
+            : '',
         markdown: true,
       },
       {
@@ -52,7 +81,7 @@ const sendYesterdayResult = async () => {
       },
       {
         type: 'text',
-        text: `⭐️ 어제 참석율: ${achieve}%`,
+        text: `⭐️ *어제 참석율: ${achieve}%*\n오늘도 커밋 가즈아~⚡️`,
         markdown: true,
       },
     ],
@@ -63,6 +92,9 @@ const sendTodayResult = async () => {
   let res = await getTodayComitter();
   let totalNumber = res['commit'].length + res['notCommit'].length;
   let achieve = Math.floor((res['commit'].length / totalNumber) * 100);
+  if (achieve === 100) {
+    return sendAllPass();
+  }
 
   sendMessage({
     title: '📣 커미터들 현황 알려드려요',
@@ -142,8 +174,8 @@ const sendMessage = ({ title, blocks }) => {
     });
 };
 
-sendAllPass();
-// sendTodayResult();
-// sendYesterdayResult();
-
-// sendTestMessage();
+module.exports = {
+  sendAllPass,
+  sendTodayResult,
+  sendYesterdayResult,
+};
