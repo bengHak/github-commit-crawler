@@ -2,6 +2,4 @@
 
 ## Github commit crawler with Nodejs, Slack API, Kakao work Bot API
 
----
-
-## It crawl the Slack message that occurs when user push commits.
+It crawl the Slack message that occurs when user push commits.
