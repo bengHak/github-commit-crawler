@@ -23,7 +23,7 @@ const getLastSavedCommitTime = async () => {
   return query['rows'][0]['created_on'];
 };
 
-const getYesterdayComitter = async () => {
+const getYesterdayCommitter = async () => {
   let query = await pool.query(
     'SELECT * FROM COMMIT_LOG WHERE DATE(created_on) = current_date-1'
   );
@@ -46,7 +46,7 @@ const getYesterdayComitter = async () => {
   };
 };
 
-const getTodayComitter = async () => {
+const getTodayCommitter = async () => {
   let query = await pool.query(
     'SELECT * FROM COMMIT_LOG WHERE DATE(created_on) = current_date'
   );
@@ -82,12 +82,10 @@ const saveCommit = async ({ username, commitLink, timestamp }) => {
   );
 };
 
-getYesterdayComitter();
-
 module.exports = {
   getCommits,
   getLastSavedCommitTime,
-  getYesterdayComitter,
-  getTodayComitter,
+  getYesterdayCommitter,
+  getTodayCommitter,
   saveCommit,
 };

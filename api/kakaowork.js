@@ -1,4 +1,4 @@
-const { getTodayComitter, getYesterdayComitter } = require('./db');
+const { getTodayCommitter, getYesterdayCommitter } = require('./db');
 const CONFIG = require('../config/config');
 const axios = require('axios');
 
@@ -25,7 +25,7 @@ const sendAllPass = async () => {
 };
 
 const sendYesterdayResult = async () => {
-  let res = await getYesterdayComitter();
+  let res = await getYesterdayCommitter();
   let totalNumber = res['commit'].length + res['notCommit'].length;
   let achieve = Math.floor((res['commit'].length / totalNumber) * 100);
 
@@ -89,7 +89,7 @@ const sendYesterdayResult = async () => {
 };
 
 const sendTodayResult = async () => {
-  let res = await getTodayComitter();
+  let res = await getTodayCommitter();
   let totalNumber = res['commit'].length + res['notCommit'].length;
   let achieve = Math.floor((res['commit'].length / totalNumber) * 100);
   if (achieve === 100) {
