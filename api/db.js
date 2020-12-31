@@ -23,9 +23,9 @@ const getLastSavedCommitTime = async () => {
   return query['rows'][0]['created_on'];
 };
 
-const getYesterdayCommitter = async () => {
+const getCommitters = async (dateString) => {
   let query = await pool.query(
-    'SELECT * FROM COMMIT_LOG WHERE DATE(created_on) = current_date-1'
+    `SELECT * FROM COMMIT_LOG WHERE created_on between '${dateString}' and '${dateString} 23:59:59'`
   );
 
   let commit = [];
@@ -40,28 +40,10 @@ const getYesterdayCommitter = async () => {
 
   notCommit = notCommit.filter((e) => !commit.includes(e));
 
-  return {
+  console.log({
     commit,
     notCommit,
-  };
-};
-
-const getTodayCommitter = async () => {
-  let query = await pool.query(
-    'SELECT * FROM COMMIT_LOG WHERE DATE(created_on) = current_date'
-  );
-
-  let commit = [];
-  let notCommit = CONFIG.member_list;
-  const username_list = CONFIG.member_list_github;
-
-  query['rows'].map((e) => {
-    const idx = username_list.indexOf(e['github_username']);
-    if (commit.includes(notCommit[idx])) return;
-    commit.push(notCommit[idx]);
   });
-
-  notCommit = notCommit.filter((e) => !commit.includes(e));
 
   return {
     commit,
@@ -82,10 +64,11 @@ const saveCommit = async ({ username, commitLink, timestamp }) => {
   );
 };
 
+getTodayCommitter();
+
 module.exports = {
   getCommits,
   getLastSavedCommitTime,
-  getYesterdayCommitter,
-  getTodayCommitter,
+  getCommitters,
   saveCommit,
 };
