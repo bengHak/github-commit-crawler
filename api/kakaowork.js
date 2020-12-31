@@ -93,7 +93,7 @@ const sendYesterdayResult = async () => {
       },
       {
         type: 'text',
-        text: `⭐️ *어제 참석율: ${achieve}%*\n오늘도 커밋 가즈아~⚡️`,
+        text: `⭐️ *어제 참석율: ${achieve}%*\n-커밋: ${res['commit'].length}명\n-낫커밋: ${res['notCommit'].length}명\n*오늘도 커밋 가즈아~⚡️*`,
         markdown: true,
       },
     ],
@@ -118,12 +118,12 @@ const sendTodayResult = async () => {
       },
       {
         type: 'text',
-        text: `*🔥 곧 정원사가 될 사람들*\n👉 ${res['notCommit']}`,
+        text: `*🔥 곧 정원사가 될 사람들 ${res['notCommit'].length}명*\n👉 ${res['notCommit']}`,
         markdown: true,
       },
       {
         type: 'text',
-        text: `*🧑🏻‍💻 오늘의 정원사들*\n👉 ${res['commit']}`,
+        text: `*🧑🏻‍💻 오늘의 정원사들 ${res['commit'].length}명*\n👉 ${res['commit']}`,
         markdown: true,
       },
       {
@@ -143,10 +143,10 @@ const sendUserListMessage = () => {
   const githubUsernames = CONFIG.member_list_github;
 
   let text = '';
-  for (let i = 0; i < members.length; i++) {
+  // for (let i = 0; i < members.length; i++) {
+  for (let i = 0; i < 12; i++) {
     text += `[${members[i]}](https://github.com/${githubUsernames[i]}/) `;
   }
-
   sendMessage({
     title: '❗현재 참가 인원을 알립니다❗',
     blocks: [
@@ -186,7 +186,9 @@ const sendMessage = ({ title, blocks }) => {
     });
 };
 
-sendUserListMessage();
+sendYesterdayResult();
+sendTodayResult();
+// sendUserListMessage();
 
 module.exports = {
   sendAllPass,
