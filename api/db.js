@@ -31,11 +31,29 @@ const getCommitters = async (dateString) => {
   let commit = [];
   let notCommit = CONFIG.member_list;
   const username_list = CONFIG.member_list_github;
+  let listWithGithub = [];
+
+  username_list.map((e, id) => {
+    listWithGithub.push({
+      name: notCommit[id],
+      username: e,
+      isCommit: false,
+    });
+  });
 
   query['rows'].map((e) => {
     const idx = username_list.indexOf(e['github_username']);
     if (commit.includes(notCommit[idx])) return;
     commit.push(notCommit[idx]);
+    listWithGithub.map((e) => {
+      if (e.username === e['github_username']) {
+        return {
+          ...e,
+          isCommit: true,
+        };
+      }
+      return e;
+    });
   });
 
   notCommit = notCommit.filter((e) => !commit.includes(e));
@@ -48,6 +66,7 @@ const getCommitters = async (dateString) => {
   return {
     commit,
     notCommit,
+    listWithGithub,
   };
 };
 
