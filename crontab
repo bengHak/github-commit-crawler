@@ -3,6 +3,6 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 1 22 * * * root /usr/local/bin/node /app/task.js today >> /app/log/send_today_log.txt 2>&1
 1 10 * * * root /usr/local/bin/node /app/task.js yesterday >> /app/log/send_yesterday_log.txt 2>&1
-* * * * * root echo "Hello" >> /app/hello.txt 2>&1
-0 * * * * root /usr/local/bin/node /app/task.js save >> /app/log/save_log.txt 2>&1
+* * * * * root echo "Hello" >> /app/log/hello.txt 2>&1
+* * * * * root /usr/local/bin/node /app/task.js save >> /app/log/save_log.txt 2>&1
 # Don't remove the empty line at the end of this file.
