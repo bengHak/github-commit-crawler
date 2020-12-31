@@ -186,8 +186,8 @@ const sendMessage = ({ title, blocks }) => {
     });
 };
 
-sendYesterdayResult();
-sendTodayResult();
+// sendYesterdayResult();
+// sendTodayResult();
 // sendUserListMessage();
 
 module.exports = {
