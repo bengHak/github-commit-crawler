@@ -1,4 +1,6 @@
-require('dotenv').config();
+//require('dotenv').config();
+// 아래 버전으로 해야 crontab에서 환경변수를 인식한다.
+require('dotenv').config({ path: '/app/.env' });
 
 let CONFIG = {};
 

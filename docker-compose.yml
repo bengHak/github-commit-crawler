@@ -17,7 +17,9 @@ services:
       - POSTGRES_INITDB_ARGS=--encoding=UTF-8
       - TZ=Asia/Seoul
   node:
-    image: node:15
+    build:
+      context: .
+      dockerfile: ./Dockerfile
     container_name: express_task
     restart: on-failure
     working_dir: '/app'
@@ -40,6 +42,6 @@ services:
       - MEMBER_LIST_GITHUB=${MEMBER_LIST_GITHUB}
       - TZ=Asia/Seoul
     command: >
-      bash -c "npm install && node task.js"
+      bash -c "npm install && cron && node app.js"
     depends_on:
       - db

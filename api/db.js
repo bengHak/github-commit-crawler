@@ -64,8 +64,6 @@ const saveCommit = async ({ username, commitLink, timestamp }) => {
   );
 };
 
-getTodayCommitter();
-
 module.exports = {
   getCommits,
   getLastSavedCommitTime,
