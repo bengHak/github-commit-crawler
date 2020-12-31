@@ -1,8 +1,17 @@
-const { getTodayCommitter, getYesterdayCommitter } = require('./db');
+const { getCommitters } = require('./db');
 const CONFIG = require('../config/config');
 const axios = require('axios');
 
 // const sendCheeringDM = () => {};
+
+const getKoreaDateString = (date) => {
+  return date
+    .toLocaleString('ko-KR')
+    .split('.')
+    .map((e) => e.trim())
+    .slice(0, 3)
+    .join('-');
+};
 
 const sendMyBalance = () => {};
 
@@ -25,7 +34,10 @@ const sendAllPass = async () => {
 };
 
 const sendYesterdayResult = async () => {
-  let res = await getYesterdayCommitter();
+  let d = new Date();
+  d.setDate(d.getDate() - 1);
+  const dateString = getKoreaDateString(d);
+  let res = await getCommitters(dateString);
   let totalNumber = res['commit'].length + res['notCommit'].length;
   let achieve = Math.floor((res['commit'].length / totalNumber) * 100);
 
@@ -89,7 +101,7 @@ const sendYesterdayResult = async () => {
 };
 
 const sendTodayResult = async () => {
-  let res = await getTodayCommitter();
+  let res = await getCommitters(getKoreaDateString(new Date()));
   let totalNumber = res['commit'].length + res['notCommit'].length;
   let achieve = Math.floor((res['commit'].length / totalNumber) * 100);
   if (achieve === 100) {
@@ -173,6 +185,8 @@ const sendMessage = ({ title, blocks }) => {
       console.log(error);
     });
 };
+
+sendUserListMessage();
 
 module.exports = {
   sendAllPass,
