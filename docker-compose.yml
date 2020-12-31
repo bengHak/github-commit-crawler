@@ -42,6 +42,7 @@ services:
       - MEMBER_LIST_GITHUB=${MEMBER_LIST_GITHUB}
       - TZ=Asia/Seoul
     command: >
-      bash -c "npm install && mkdir log && cron && node app.js"
+      bash -c "npm install && mkdir -p log && cron && node app.js"
+    # && node app.js"
     depends_on:
       - db
