@@ -43,6 +43,5 @@ services:
       - TZ=Asia/Seoul
     command: >
       bash -c "npm install && mkdir -p log && cron && node app.js"
-    # && node app.js"
     depends_on:
       - db
