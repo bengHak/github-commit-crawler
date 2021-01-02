@@ -1,17 +1,9 @@
 const { getCommitters } = require('./db');
+const { getKoreaDateString } = require('../lib/libs');
 const CONFIG = require('../config/config');
 const axios = require('axios');
 
 // const sendCheeringDM = () => {};
-
-const getKoreaDateString = (date) => {
-  return date
-    .toLocaleString('ko-KR')
-    .split('.')
-    .map((e) => e.trim())
-    .slice(0, 3)
-    .join('-');
-};
 
 const sendMyBalance = () => {};
 
