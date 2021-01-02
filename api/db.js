@@ -78,29 +78,17 @@ const getAllCommits = async (startDate, endDate) => {
   );
 
   let attendances = {};
-  let start = new Date(startDate);
-  let end = new Date(endDate);
-  const diff = (end - start) / (3600 * 1000 * 24);
-
-  let date = {};
-
-  for (let i = 0; i <= diff; i++) {
-    const dateString = getKoreaDateString(new Date(start));
-    date[dateString] = false;
-    start.setDate(start.getDate() + 1);
-  }
 
   member_list_github.map((e, idx) => {
     attendances[e] = {
       github_username: e,
       username: member_list[idx],
-      commits: { ...date },
+      commits: {},
     };
   });
 
-  console.log(query.rows);
   query['rows'].map((e) => {
-    const created_on = getKoreaDateString(e['created_on']);
+    let created_on = getKoreaDateString(e['created_on']);
     attendances[e['github_username']]['commits'][created_on] = true;
   });
 
