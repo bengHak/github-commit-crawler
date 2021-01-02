@@ -1,5 +1,6 @@
 const { Pool } = require('pg');
-const { member_list_github } = require('../config/config');
+const { member_list_github, member_list } = require('../config/config');
+const { getKoreaDateString } = require('../lib/libs');
 const CONFIG = require('../config/config');
 
 const pool = new Pool({
@@ -45,14 +46,15 @@ const getCommitters = async (dateString) => {
     const idx = username_list.indexOf(e['github_username']);
     if (commit.includes(notCommit[idx])) return;
     commit.push(notCommit[idx]);
-    listWithGithub.map((e) => {
-      if (e.username === e['github_username']) {
+
+    listWithGithub = listWithGithub.map((element) => {
+      if (element.username === e['github_username']) {
         return {
-          ...e,
+          ...element,
           isCommit: true,
         };
       }
-      return e;
+      return element;
     });
   });
 
@@ -68,6 +70,41 @@ const getCommitters = async (dateString) => {
     notCommit,
     listWithGithub,
   };
+};
+
+const getAllCommits = async (startDate, endDate) => {
+  let query = await pool.query(
+    `SELECT * FROM COMMIT_LOG WHERE created_on between '${startDate}' and '${endDate} 23:59:59'`
+  );
+
+  let attendances = {};
+  let start = new Date(startDate);
+  let end = new Date(endDate);
+  const diff = (end - start) / (3600 * 1000 * 24);
+
+  let date = {};
+
+  for (let i = 0; i <= diff; i++) {
+    const dateString = getKoreaDateString(new Date(start));
+    date[dateString] = false;
+    start.setDate(start.getDate() + 1);
+  }
+
+  member_list_github.map((e, idx) => {
+    attendances[e] = {
+      github_username: e,
+      username: member_list[idx],
+      commits: { ...date },
+    };
+  });
+
+  console.log(query.rows);
+  query['rows'].map((e) => {
+    const created_on = getKoreaDateString(e['created_on']);
+    attendances[e['github_username']]['commits'][created_on] = true;
+  });
+
+  return attendances;
 };
 
 const saveCommit = async ({ username, commitLink, timestamp }) => {
@@ -87,5 +124,6 @@ module.exports = {
   getCommits,
   getLastSavedCommitTime,
   getCommitters,
+  getAllCommits,
   saveCommit,
 };
