@@ -15,6 +15,9 @@ switch (process.argv[2]) {
       let unSavedCommit = await getUnsavedCommit(lastTime);
       unSavedCommit = unSavedCommit.reverse();
       unSavedCommit.map(async (e) => {
+        if (!member_list_github.includes(e['author_name'])) {
+          return;
+        }
         await saveCommit({
           username: e['author_name'],
           commitLink: e['commit_link'],
