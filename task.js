@@ -1,6 +1,7 @@
 const { getLastSavedCommitTime, saveCommit } = require('./api/db');
 const { sendTodayResult, sendYesterdayResult } = require('./api/kakaowork');
 const { getUnsavedCommit } = require('./api/slack');
+const { member_list_github } = require('./config/config');
 
 switch (process.argv[2]) {
   case 'today':
