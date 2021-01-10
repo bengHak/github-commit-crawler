@@ -23,6 +23,10 @@ Github commit crawler with Nodejs, Slack API, Kakaowork Bot API
 
 - https://api.slack.com/ (이곳에서 Slack API 토큰을 받아옵니다)
 
+### 카카오워크 Bot
+
+- https://docs.kakaoi.ai/kakao_work/botdevguide/
+
 ### 서버 켜는 법
 
 ```
