@@ -3,6 +3,8 @@ version: '3'
 services:
   db:
     image: postgres:13
+    env_file:
+      - .env
     container_name: postgresql
     restart: always
     ports:
@@ -10,16 +12,12 @@ services:
     volumes:
       - ./schema.sql:/docker-entrypoint-initdb.d/init.sql
       - ./docker/data:/var/lib/postgresql/data/
-    environment:
-      - POSTGRES_DB=${DB_NAME}
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_INITDB_ARGS=--encoding=UTF-8
-      - TZ=Asia/Seoul
   node:
     build:
       context: .
       dockerfile: ./Dockerfile
+    env_file:
+      - .env
     container_name: express_task
     restart: on-failure
     working_dir: '/app'
@@ -28,19 +26,6 @@ services:
     volumes:
       - ./:/app
       - /app/node_modules
-    environment:
-      - KAKAOWORK_API=${KAKAOWORK_API}
-      - KAKAOWORK_CONVERSATION_ID=${KAKAOWORK_CONVERSATION_ID}
-      - SLACK_API_TOKEN=${SLACK_API_TOKEN}
-      - SLACK_CHANNEL_ID=${SLACK_CHANNEL_ID}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_NAME=${DB_NAME}
-      - DB_PORT=${DB_PORT}
-      - DB_HOST=${DB_HOST}
-      - MEMBER_LIST=${MEMBER_LIST}
-      - MEMBER_LIST_GITHUB=${MEMBER_LIST_GITHUB}
-      - TZ=Asia/Seoul
     command: >
       bash -c "npm install && mkdir -p log && cron && node app.js"
     depends_on:
