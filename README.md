@@ -47,6 +47,7 @@ docker-compose --env-file .env up -d
 - DB_HOST
 - MEMBER_LIST=고병학,고병학 (띄어쓰기 없이 쉼표로 구분)
 - MEMBER_LIST_GITHUB=bengHak,bengHak (띄어쓰기 없이 쉼표로 구분)
+- TZ=Asia/Seoul
 ```
 
 ## 참고 깃허브
