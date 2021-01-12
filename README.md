@@ -30,7 +30,7 @@ Github commit crawler with Nodejs, Slack API, Kakaowork Bot API
 ### 서버 켜는 법
 
 ```
-docker-compose --env-file .env up -d
+docker-compose up -d
 ```
 
 ### 환경변수 파일(.env)
