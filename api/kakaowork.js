@@ -76,7 +76,7 @@ const sendYesterdayResult = async () => {
         type: 'text',
         text:
           res['notCommit'].length > 0
-            ? `*💢 어제 뭐함,,?*\n👉 ${res['notCommit']}`
+            ? `*오늘은 꼭,,?*\n👉 ${res['notCommit']}`
             : '',
         markdown: true,
       },
