@@ -7,7 +7,6 @@ Github commit crawler with Nodejs, Slack API, Kakaowork Bot API
 ## 프론트엔드
 
 - https://github.com/bengHak/garden_frontend
-- http://dsc-hufs.ga
 
 ### 기능
 
